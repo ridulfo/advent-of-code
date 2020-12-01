@@ -1,3 +1,5 @@
+from time import time
+
 def readReport():
     with open("inputDay1.txt") as f:
         return [int(x) for x in f.read().split("\n") if x != ""]
@@ -17,5 +19,12 @@ def part2():
                 if a+b+c==2020:
                     return a*b*c
 
-print(part1())
-print(part2())
+def timeit(func):
+    t0 = time()
+    result = func()
+    t1 = time()
+    print("Answer:", result, "Time:", round((t1-t0)*1000, 2), "ms")
+
+if __name__ == "__main__":
+    timeit(part1)
+    timeit(part2)
