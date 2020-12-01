@@ -1,7 +1,7 @@
 # Advent of Code!
 
 2020:
-- [ ] Day 1 
+- [x] Day 1 
 - [ ] Day 2
 - [ ] Day 3
 - [ ] Day 4
@@ -25,6 +25,7 @@
 - [ ] Day 22
 - [ ] Day 23
 - [ ] Day 24
+- [ ] Day 25
 
 2019:
 - [x] Day 1
