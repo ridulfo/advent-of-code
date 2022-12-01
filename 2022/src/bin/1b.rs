@@ -1,17 +1,17 @@
-use AoC::input::read_stdin;
+use aoc::input::read_stdin;
 fn main() {
-    let elves = read_stdin();
-    let parsed: Vec<Vec<u32>> = elves
+    let input_str = read_stdin();
+    let mut calories: Vec<u32> = input_str
         .split("\n\n")
         .map(|elf| {
             elf.split("\n")
                 .map(|line| line.parse::<u32>().unwrap())
-                .collect::<Vec<_>>()
+                .sum::<u32>()
         })
-        .collect::<Vec<_>>();
-    let mut calories: Vec<u32> = parsed.iter().map(|e| e.iter().sum()).collect();
+        .collect();
+
     calories.sort();
     calories.reverse();
-    let top_three: u32 = calories.iter().take(3).sum();
-    println!("{}", top_three);
+
+    println!("{}", calories.iter().take(3).sum::<u32>());
 }
