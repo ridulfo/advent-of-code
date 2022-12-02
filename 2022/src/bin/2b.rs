@@ -1,5 +1,21 @@
 use aoc::input::read_stdin;
 fn main() {
+    fn to_win(opponent: u8) -> u8 {
+        match opponent {
+            0 => 1,
+            1 => 2,
+            2 => 0,
+            _ => unreachable!(),
+        }
+    }
+    fn to_lose(opponent: u8) -> u8 {
+        match opponent {
+            0 => 2,
+            1 => 0,
+            2 => 1,
+            _ => unreachable!(),
+        }
+    }
     let input_str = read_stdin();
     let games = input_str
         .lines()
@@ -10,37 +26,20 @@ fn main() {
             ]
         })
         .map(|[a, b]| [a - b'A', b - b'X'])
-        .fold(0, |mut acc: u32, [a, b]| {
-            let mut throw: u8 = 0;
-            if b == 0 {
-                match a {
-                    0 => throw = 2,
-                    1 => throw = 0,
-                    2 => throw = 1,
-                    _ => assert!(false),
-                }
-            } else if b == 1 {
-                throw = a;
-            } else {
-                match a {
-                    0 => throw = 1,
-                    1 => throw = 2,
-                    2 => throw = 0,
-                    _ => assert!(false),
-                }
-            }
+        .fold(0, |acc: u32, [a, b]| {
+            let throw = match b {
+                0 => to_lose(a),
+                1 => a,
+                2 => to_win(a),
+                _ => unreachable!(),
+            };
 
-            acc += (throw + 1) as u32;
-            if a == throw {
-                acc += 3;
-            } else {
-                match (a, throw) {
-                    (0, 1) | (1, 2) | (2, 0) => acc += 6,
-                    _ => {}
+            acc + (throw as u32 + 1)
+                + match (a, throw) {
+                    (0, 1) | (1, 2) | (2, 0) => 6,
+                    (0, 0) | (1, 1) | (2, 2) => 3,
+                    _ => 0,
                 }
-            }
-            println!("{} {} {} {}", a, b, throw, acc);
-            acc
         });
     println!("{:?}", games);
 }
