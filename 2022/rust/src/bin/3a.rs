@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use aoc::input::read_stdin;
 fn main() {
     let input_str = read_stdin();
-    let chars = input_str
+    let answer = input_str
         .lines()
         .map(|line| {
             let (sec1, sec2) = (&line[0..line.len() / 2], &line[line.len() / 2..]);
@@ -21,5 +21,5 @@ fn main() {
                 .sum::<u16>()
         })
         .sum::<u16>();
-    println!("{:?}", chars);
+    println!("{:?}", answer);
 }
