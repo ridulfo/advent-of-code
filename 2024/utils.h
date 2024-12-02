@@ -2,6 +2,10 @@
 #include <time.h>
 
 char *read_stdin();
+char **split_str(const char *str, const char *substr);
+
+#define foreach(type, item, array)                                             \
+        for (type *item = (array); item < (array) + arrlen(array); item++)
 
 #define BENCHMARK_RUNS 10
 #define BENCHMARK(code_block)                                                  \

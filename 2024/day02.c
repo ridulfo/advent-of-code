@@ -37,23 +37,17 @@ bool is_valid(const int *levels) {
 
         return true;
 }
-
 void part1(const char *input) {
         char *owned_input = strdup(input);
         int safe_reports = 0;
 
-        char *line_rest = NULL;
-        char *line_token;
-        for (line_token = strtok_r(owned_input, "\n", &line_rest);
-             line_token != NULL;
-             line_token = strtok_r(NULL, "\n", &line_rest)) {
-                int *levels = NULL;
+        char **lines = split_str(owned_input, "\n");
+        foreach (char *, line, lines) {
+                char **levels_str = split_str(*line, " ");
 
-                char *rest = NULL;
-                char *token;
-                for (token = strtok_r(line_token, " ", &rest); token != NULL;
-                     token = strtok_r(NULL, " ", &rest)) {
-                        arrput(levels, atoi(token));
+                int *levels = NULL;
+                foreach (char *, level, levels_str) {
+                        arrput(levels, atoi(*level));
                 }
 
                 if (is_valid(levels)) {
@@ -71,18 +65,13 @@ void part2(const char *input) {
         char *owned_input = strdup(input);
         int safe_reports = 0;
 
-        char *line_rest = NULL;
-        char *line_token;
-        for (line_token = strtok_r(owned_input, "\n", &line_rest);
-             line_token != NULL;
-             line_token = strtok_r(NULL, "\n", &line_rest)) {
-                int *levels = NULL;
+        char **lines = split_str(owned_input, "\n");
+        foreach (char *, line, lines) {
+                char **levels_str = split_str(*line, " ");
 
-                char *rest = NULL;
-                char *token;
-                for (token = strtok_r(line_token, " ", &rest); token != NULL;
-                     token = strtok_r(NULL, " ", &rest)) {
-                        arrput(levels, atoi(token));
+                int *levels = NULL;
+                foreach (char *, level, levels_str) {
+                        arrput(levels, atoi(*level));
                 }
 
                 // Remove one level and try, no need to check non-dampened
@@ -108,9 +97,9 @@ void part2(const char *input) {
 
 int main() {
         char *input = read_stdin();
-        //part1(test_input);
+        // part1(test_input);
         part1(input);
-        //part2(test_input);
+        // part2(test_input);
         part2(input);
         return 0;
 }
