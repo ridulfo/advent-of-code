@@ -23,19 +23,33 @@ char *read_stdin() {
         return buffer;
 }
 
+/** Split a string into an array of strings based on a delimiter. */
 char **split_str(const char *str, const char *substr) {
-        char *owned_input = strdup(str);
+        size_t substr_len = strlen(substr);
+        char **arr = NULL;
 
-        char **arr = NULL; // Dynamic array, ensure arrput is available
-        char *rest = NULL;
-        char *token;
+        const char *start = str;
+        const char *match;
 
-        for (token = strtok_r(owned_input, substr, &rest); token != NULL;
-             token = strtok_r(NULL, substr, &rest)) {
-                char *dup_token = strdup(token);
-                arrput(arr, dup_token);
+        while ((match = strstr(start, substr)) != NULL) {
+                size_t token_len = match - start;
+                char *token = strndup(start, token_len); // Copy the token
+                arrput(arr, token);         // Add token to the array
+                start = match + substr_len; // Move past the match
         }
 
-        free(owned_input);
+        // Add the last token if any
+        if (*start != '\0') {
+                arrput(arr,
+                       strdup(start)); // Add the remaining part of the string
+        }
+
         return arr;
+}
+
+void splitfree(char **arr) {
+        for (int i = 0; i < arrlen(arr); i++) {
+                free(arr[i]);
+        }
+        arrfree(arr); // Free the array itself
 }

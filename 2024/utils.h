@@ -3,6 +3,7 @@
 
 char *read_stdin();
 char **split_str(const char *str, const char *substr);
+void splitfree(char **arr);
 
 #define foreach(type, item, array)                                             \
         for (type *item = (array); item < (array) + arrlen(array); item++)
