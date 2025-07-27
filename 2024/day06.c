@@ -99,15 +99,23 @@ void part1(const char *input) {
         arrfree(map);
 }
 
-char* encode_location(int x, int y, Direction dir) {
+char *encode_location(int x, int y, Direction dir) {
         char *str = malloc(20);
         snprintf(str, 20, "%d,%d,%d", x, y, dir);
         return str;
 }
 
+bool
+
 void part2(const char *input) {
-        /* 
-         * If the guard is in the same place looking at the same direction, then a loop has been found
+        /*
+         * Algorithm:
+         * 1. Parse the input into a map
+         * 2. Run it once to find the route
+         * 3. For every location in the normal route, try to put an obsticle in
+         *    that place and see if the guard gets stuck in a loop.
+         * 4. If the guard is in the same place looking at the same direction, then a loop has been
+         * found.
          */
 
         side = (int)(strstr(input, "\n") - input);
@@ -128,11 +136,14 @@ void part2(const char *input) {
                 }
         }
 
-
-        Point *
+        struct {
+                char *key;
+                void *value;
+        } *locmap = NULL;
         bool done = false;
         while (!done) {
-                locmap[coords_to_index(gx, gy)] = true;
+                char *key = encode_location(gx, gy, dir);
+                shput(locmap, key, NULL);
 
                 int ngx, ngy;
         reset:
@@ -158,11 +169,6 @@ void part2(const char *input) {
                 done = gx < 0 || gx > side || gy < 0 || gy > side;
         }
 
-        int count = 0;
-        for (int i = 0; i < side * side; i++) {
-                count += locmap[i] ? 1 : 0;
-        }
-        printf("%d\n", count);
 
         free(locmap);
         arrfree(map);
@@ -173,4 +179,3 @@ int main() {
         part1(input);
         return 0;
 }
-
